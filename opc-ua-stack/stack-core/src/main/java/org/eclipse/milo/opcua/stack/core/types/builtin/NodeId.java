@@ -6,9 +6,9 @@
  * and Eclipse Distribution License v1.0 which accompany this distribution.
  *
  * The Eclipse Public License is available at
- * 	http://www.eclipse.org/legal/epl-v10.html
+ *   http://www.eclipse.org/legal/epl-v10.html
  * and the Eclipse Distribution License is available at
- * 	http://www.eclipse.org/org/documents/edl-v10.html.
+ *   http://www.eclipse.org/org/documents/edl-v10.html.
  */
 
 package org.eclipse.milo.opcua.stack.core.types.builtin;
@@ -204,6 +204,9 @@ public final class NodeId {
                 if (bs.isNull()) sb.append("b=");
                 else sb.append("b=").append(DatatypeConverter.printBase64Binary(bs.bytes()));
                 break;
+
+            default:
+                throw new IllegalStateException("unknown IdType: " + getType());
         }
 
         return sb.toString();
@@ -212,15 +215,21 @@ public final class NodeId {
     // TODO Re-write this crap... or at the very least write some good unit tests.
 
     private static final Pattern INT_INT = Pattern.compile("ns=(\\d*);i=(\\d*)");
+
     private static final Pattern NONE_INT = Pattern.compile("i=(\\d*)");
 
     private static final Pattern INT_STRING = Pattern.compile("ns=(\\d*);s=(.*)");
+
     private static final Pattern NONE_STRING = Pattern.compile("s=(.*)");
 
-    private static final Pattern INT_GUID = Pattern.compile("ns=(\\d*);g=([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})");
-    private static final Pattern NONE_GUID = Pattern.compile("g=([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})");
+    private static final Pattern INT_GUID = Pattern.compile(
+        "ns=(\\d*);g=([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})");
+
+    private static final Pattern NONE_GUID = Pattern.compile(
+        "g=([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})");
 
     private static final Pattern INT_OPAQUE = Pattern.compile("ns=(\\d*);b=([0-9a-zA-Z\\+/=]*)");
+
     private static final Pattern NONE_OPAQUE = Pattern.compile("b=([0-9a-zA-Z\\+/=]*)");
 
     public static NodeId parse(@Nonnull String s) {
