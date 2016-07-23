@@ -53,7 +53,7 @@ public class HelloWorld {
             "urn:eclipse:milo:opcua:test-namespace",
             idx -> new HelloNamespace());
 
-        server.startup();
+        server.startup().get();
 
 
         // Start client
