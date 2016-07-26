@@ -58,8 +58,8 @@ public class DelegateRegistry {
 
         if (instance == null) {
             /*
-             * Reflect-o-magically find all generated structured and enumerated types and force their static initialization
-             * blocks to run, registering their encode/decode methods with the delegate registry.
+             * Reflect-o-magically find all generated structured and enumerated types and force their static
+             * initialization blocks to run, registering their encode/decode methods with the delegate registry.
              */
             Logger logger = LoggerFactory.getLogger(DelegateRegistry.class);
 
