@@ -31,16 +31,16 @@ public class ClientExampleRunner {
 
     private final ClientExample clientExample;
 
-    public ClientExampleRunner(ClientExample clientExample) {
+    public ClientExampleRunner(ClientExample clientExample) throws ExecutionException, InterruptedException {
         this.clientExample = clientExample;
 
         exampleServer = new ExampleServer();
+        exampleServer.startup().get();
     }
 
     private OpcUaClient createClient() throws Exception {
         SecurityPolicy securityPolicy = clientExample.getSecurityPolicy();
 
-//        EndpointDescription[] endpoints = UaTcpStackClient.getEndpoints("opc.tcp://localhost:12686/example").get();
         EndpointDescription[] endpoints = UaTcpStackClient.getEndpoints("opc.tcp://opcua.demo-this.com:51210/UA/SampleServer").get();
 
         EndpointDescription endpoint = Arrays.stream(endpoints)
@@ -57,7 +57,7 @@ public class ClientExampleRunner {
                 .setCertificate(loader.getClientCertificate())
                 .setKeyPair(loader.getClientKeyPair())
                 .setEndpoint(endpoint)
-//                .setIdentityProvider(clientExample.getIdentityProvider())
+                .setIdentityProvider(clientExample.getIdentityProvider())
                 .setRequestTimeout(uint(5000))
                 .build();
 
@@ -69,7 +69,7 @@ public class ClientExampleRunner {
             if (client != null) {
                 try {
                     client.disconnect().get();
-                    exampleServer.shutdown();
+                    exampleServer.shutdown().get();
                     Stack.releaseSharedResources();
                 } catch (InterruptedException | ExecutionException e) {
                     logger.error("Error disconnecting:", e.getMessage(), e);

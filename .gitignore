@@ -12,3 +12,11 @@
 # Maven #
 **/target/*
 target/*
+/opc-ua-stack/stack-core/target/
+/opc-ua-stack/stack-client/target/
+/opc-ua-sdk/sdk-client/target/
+/opc-ua-stack/stack-server/target/
+/opc-ua-sdk/sdk-core/target/
+/opc-ua-sdk/sdk-server/target/
+/milo-examples/server-examples/target/
+/milo-examples/client-examples/target/
