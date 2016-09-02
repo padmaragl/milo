@@ -9,7 +9,6 @@ import org.eclipse.milo.opcua.sdk.client.OpcUaClient;
 import org.eclipse.milo.opcua.sdk.client.api.subscriptions.UaMonitoredItem;
 import org.eclipse.milo.opcua.sdk.client.api.subscriptions.UaSubscription;
 import org.eclipse.milo.opcua.stack.core.AttributeId;
-import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.types.builtin.DataValue;
 import org.eclipse.milo.opcua.stack.core.types.builtin.QualifiedName;
 import org.eclipse.milo.opcua.stack.core.types.builtin.unsigned.UInteger;
@@ -22,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static com.google.common.collect.Lists.newArrayList;
+import org.eclipse.milo.opcua.stack.core.types.builtin.NodeId;
 import static org.eclipse.milo.opcua.stack.core.types.builtin.unsigned.Unsigned.uint;
 
 public class SubscriptionExample implements ClientExample {
@@ -45,8 +45,14 @@ public class SubscriptionExample implements ClientExample {
         UaSubscription subscription = client.getSubscriptionManager().createSubscription(1000.0).get();
 
         // subscribe to the Value attribute of the server's CurrentTime node
+        NodeId node = new NodeId(4, 1285);
         ReadValueId readValueId = new ReadValueId(
-            Identifiers.Server_ServerStatus_CurrentTime,
+//                new NodeId(UShort.valueOf(4), "1281"),
+                node,
+//            Identifiers.Node,
+//            AttributeId.Value.uid(), null, QualifiedName.parse("NS4|Numeric|1285"));
+//        ReadValueId readValueId = new ReadValueId(
+//            Identifiers.Server_ServerStatus_CurrentTime,
             AttributeId.Value.uid(), null, QualifiedName.NULL_VALUE);
 
         // important: client handle must be unique per item
@@ -80,8 +86,8 @@ public class SubscriptionExample implements ClientExample {
                 logger.info("item created for nodeId={}", item.getReadValueId().getNodeId());
             } else {
                 logger.warn(
-                    "failed to create item for nodeId={} (status={})",
-                    item.getReadValueId().getNodeId(), item.getStatusCode());
+                        "failed to create item for nodeId={} (status={})",
+                        item.getReadValueId().getNodeId(), item.getStatusCode());
             }
         }
 

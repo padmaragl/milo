@@ -40,7 +40,8 @@ public class ClientExampleRunner {
     private OpcUaClient createClient() throws Exception {
         SecurityPolicy securityPolicy = clientExample.getSecurityPolicy();
 
-        EndpointDescription[] endpoints = UaTcpStackClient.getEndpoints("opc.tcp://localhost:12686/example").get();
+//        EndpointDescription[] endpoints = UaTcpStackClient.getEndpoints("opc.tcp://localhost:12686/example").get();
+        EndpointDescription[] endpoints = UaTcpStackClient.getEndpoints("opc.tcp://opcua.demo-this.com:51210/UA/SampleServer").get();
 
         EndpointDescription endpoint = Arrays.stream(endpoints)
                 .filter(e -> e.getSecurityPolicyUri().equals(securityPolicy.getSecurityPolicyUri()))
@@ -56,7 +57,7 @@ public class ClientExampleRunner {
                 .setCertificate(loader.getClientCertificate())
                 .setKeyPair(loader.getClientKeyPair())
                 .setEndpoint(endpoint)
-                .setIdentityProvider(clientExample.getIdentityProvider())
+//                .setIdentityProvider(clientExample.getIdentityProvider())
                 .setRequestTimeout(uint(5000))
                 .build();
 
